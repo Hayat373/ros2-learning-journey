@@ -10,6 +10,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/msg', ['msg/NumString.msg']),
+        ('share/' + package_name + '/launch', ['launch/demo.launch.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -24,6 +26,7 @@ setup(
         'console_scripts': [
             'publisher_node = my_first_package.publisher_node:main',
             'subscriber_node = my_first_package.subscriber_node:main',
+            'parameter_publisher = my_first_package.parameter_publisher:main',
         ],
     },
 )
