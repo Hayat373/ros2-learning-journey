@@ -15,15 +15,15 @@ setup(
     zip_safe=True,
     maintainer='hayat',
     maintainer_email='hayahmam3@gmail.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
-    extras_require={
-        'test': [
-            'pytest',
-        ],
-    },
-    entry_points={
+    description='My first ROS 2 package',
+    license='Apache-2.0',
+    tests_require=['pytest'],
+
+      
+          entry_points={
         'console_scripts': [
+            'publisher_node = my_first_package.publisher_node:main',
+            'subscriber_node = my_first_package.subscriber_node:main',
         ],
     },
 )
