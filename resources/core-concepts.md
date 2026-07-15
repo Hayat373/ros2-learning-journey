@@ -1,62 +1,84 @@
 # ROS 2 Core Concepts - Beginner Guide
 
-**Date**: 2026-06-23 (Day 2)  
+**Date**: 2026-07-15  
 **ROS Version**: Jazzy Jalisco  
-**Part of**: [ros2-learning-journey](https://github.com/Hayat373/ros2-learning-journey)
+**Repository**: [ros2-learning-journey](https://github.com/Hayat373/ros2-learning-journey)
 
-This file explains the fundamental concepts you encountered on Day 2 with **Turtlesim**.
+This document provides a clear and formal explanation of the fundamental ROS 2 concepts introduced during early tutorials using the **Turtlesim** simulator.
 
 ## 1. Nodes
-- A **Node** is an executable process that performs a specific task.
-- In ROS 2, everything runs as nodes (sensors, controllers, planners, etc.).
-- Nodes communicate with each other.
-- **CLI Commands**:
-  ```bash
-  ros2 node list
-  ros2 node info /turtlesim
-  ```
 
-  Real-world example: One node reads camera data, another controls motors.
-## 2. Topics
+A **Node** is the basic executable unit in ROS 2. It is a process that performs a specific computation or task.
 
-- Topics are named channels (like message buses) where nodes publish or subscribe to data.
-- Communication is publish/subscribe (many-to-many).
-Messages are sent over topics (e.g., /turtle1/cmd_vel, /turtle1/pose).
+- Nodes are the building blocks of any ROS 2 system.
+- Each node can publish data, subscribe to data, provide services, and manage parameters.
+- A complete robot system usually consists of many interacting nodes.
 
-### Key Commands:
-``` bash
-ros2 topic list
-ros2 topic list -t          # Show message types
-ros2 topic echo /turtle1/pose
-ros2 topic info /turtle1/cmd_vel
-ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.0}, angular: {z: 0.5}}" --once
+**Common CLI Commands**:
+```bash
+ros2 node list                    # List all active nodes
+ros2 node info /turtlesim         # Detailed information about a node
 ```
+Real-world analogy: A camera node publishes images, a navigation node subscribes to them and publishes motor commands.
+
+## 2. Topics
+Topics are named communication channels that enable asynchronous data exchange between nodes using the publish-subscribe model.
+
+One or more publishers can send messages to a topic.
+One or more subscribers can receive those messages.
+This decouples producers and consumers of data.
+
+Key Commands:
+
+```
+ros2 topic list                   # List all active topics
+ros2 topic list -t                # List topics with message types
+ros2 topic echo /turtle1/pose     # Display live messages on a topic
+ros2 topic info /turtle1/cmd_vel  # Information about a specific topic
+ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0}, angular: {z: 1.8}}" --once
+```
+
 ## 3. Messages
+Messages are structured data types used for communication over topics and services.
 
-- Messages are the data structures sent over topics (e.g., geometry_msgs/msg/Twist for velocity).
+ROS 2 includes many standard message types (e.g., geometry_msgs/msg/Twist for velocity, sensor_msgs/msg/Image for camera data).
+You can also define custom messages.
 
+## 4. Services
+Services provide synchronous (request-response) communication.
 
-## 4. Services (Request/Response)
+A service server waits for requests and sends back a response.
+Used for actions that need immediate feedback (e.g., "turn on camera", "set pen color").
 
-- Used for one-time actions (like "set pen color" in turtlesim).
-Synchronous (wait for reply).
-
-``` bash
+Common Commands:
+```bash
 ros2 service list
 ros2 service call /turtle1/set_pen turtlesim/srv/SetPen "{r: 255, g: 0, b: 0, width: 3}"
 ```
 ## 5. Parameters
+Parameters allow runtime configuration of nodes without changing code.
 
-- Configuration values for nodes (speed, thresholds, etc.).
+Nodes can declare, get, and set parameters.
+Useful for tuning values like speeds, thresholds, or modes.
 
-```bash
+Commands:
+``` bash 
 ros2 param list
 ros2 param get /turtlesim background_r
+ros2 param set /turtlesim background_r 100
 ```
-## 6. ROS 2 Graph
+## 6. ROS 2 Graph & Visualization Tools
 
-- Visualization of all nodes and how they are connected.
-
-``` bash
-rqt_graph   # (install with: sudo apt install ros-jazzy-rqt-graph)
+The ROS 2 Graph shows the connectivity between nodes, topics, and services.
+Tool:
+```bash 
+sudo apt install ros-jazzy-rqt-graph
+rqt_graph
 ```
+## 7. Launch Files
+Launch Files are used to start multiple nodes (and configure parameters) with a single command.
+
+They improve reproducibility and organization.
+Written in Python (.launch.py files).
+Can launch nodes, set parameters, remap topics, etc.
+
