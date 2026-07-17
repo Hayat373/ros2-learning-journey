@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <robot name="simple_robot">
 
+  <!-- Base Link -->
   <link name="base_link">
     <visual>
       <geometry>
@@ -10,6 +11,15 @@
         <color rgba="0 0 1 1"/>
       </material>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.6 0.4 0.2"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <!-- Left Wheel -->
@@ -22,6 +32,15 @@
         <color rgba="0 0 0 1"/>
       </material>
     </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.1" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+    </inertial>
   </link>
 
   <!-- Right Wheel -->
@@ -34,6 +53,15 @@
         <color rgba="0 0 0 1"/>
       </material>
     </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.1" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+    </inertial>
   </link>
 
   <!-- Joints -->
@@ -50,5 +78,27 @@
     <origin xyz="0.2 -0.25 0" rpy="0 0 1.57"/>
     <axis xyz="0 1 0"/>
   </joint>
+
+    <!-- Gazebo DiffDrive Plugin - Correct for Jazzy / Harmonic
+  <gazebo>
+    <plugin
+      name="diff_drive"
+      filename="libgz-sim-diff-drive-system.so">
+
+      <interface>gz::sim::systems::DiffDrive</interface>
+
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+      <wheel_separation>0.5</wheel_separation>
+      <wheel_radius>0.1</wheel_radius>
+
+      <cmd_vel_topic>/cmd_vel</cmd_vel_topic>
+      <odom_topic>/odom</odom_topic>
+
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+    </plugin>
+  </gazebo> -->
+
 
 </robot>
